@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prototype Patterns | St Andrews Digital</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        /* Material Design 3 / Modern UI Colors */
+        --md-sys-color-background: #f4f5f8;
+        --md-sys-color-surface: #ffffff;
+        --md-sys-color-on-surface: #1c1b1f;
+        --md-sys-color-on-surface-variant: #44474e;
+        --md-sys-color-primary: #0b57d0;
+        --md-sys-color-primary-container: #d3e3fd;
+        --md-sys-color-on-primary-container: #041e49;
+        --md-sys-elevation-1: 0px 2px 8px rgba(0, 0, 0, 0.05);
+        --md-sys-elevation-2: 0px 4px 16px rgba(0, 0, 0, 0.08);
+      }
+
+      body {
+        font-family: "Roboto", sans-serif;
+        background-color: var(--md-sys-color-background);
+        color: var(--md-sys-color-on-surface);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      header {
+        background-color: var(--md-sys-color-surface);
+        width: 100%;
+        padding: 60px 20px;
+        box-sizing: border-box;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        text-align: center;
+      }
+
+      .header-content {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .eyebrow {
+        color: var(--md-sys-color-primary);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-size: 13px;
+        margin-bottom: 12px;
+        display: block;
+      }
+
+      h1 {
+        margin: 0 0 16px 0;
+        font-size: 40px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      .subtitle {
+        color: var(--md-sys-color-on-surface-variant);
+        font-size: 18px;
+        line-height: 1.5;
+        margin: 0;
+      }
+
+      main {
+        padding: 60px 20px;
+        max-width: 1000px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .section-title {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 24px;
+        color: var(--md-sys-color-on-surface);
+      }
+
+      .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 24px;
+      }
+
+      /* Pattern Card Styling */
+      .card {
+        background-color: var(--md-sys-color-surface);
+        border-radius: 16px;
+        padding: 24px;
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        flex-direction: column;
+        box-shadow: var(--md-sys-elevation-1);
+        transition:
+          transform 0.2s cubic-bezier(0.2, 0, 0, 1),
+          box-shadow 0.2s cubic-bezier(0.2, 0, 0, 1);
+        position: relative;
+        border: 1px solid transparent;
+      }
+
+      .card:hover,
+      .card:focus-visible {
+        transform: translateY(-4px);
+        box-shadow: var(--md-sys-elevation-2);
+        border-color: var(--md-sys-color-primary-container);
+        outline: none;
+      }
+
+      .card:active {
+        transform: scale(0.98);
+      }
+
+      .card-icon {
+        width: 48px;
+        height: 48px;
+        background-color: var(--md-sys-color-primary-container);
+        color: var(--md-sys-color-primary);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+
+      .card-icon svg {
+        width: 24px;
+        height: 24px;
+        fill: currentColor;
+      }
+
+      .card h2 {
+        margin: 0 0 8px 0;
+        font-size: 20px;
+        font-weight: 700;
+      }
+
+      .card p {
+        margin: 0 0 24px 0;
+        color: var(--md-sys-color-on-surface-variant);
+        font-size: 15px;
+        line-height: 1.5;
+        flex-grow: 1;
+      }
+
+      .card-footer {
+        display: flex;
+        align-items: center;
+        color: var(--md-sys-color-primary);
+        font-weight: 500;
+        font-size: 14px;
+      }
+
+      .card-footer svg {
+        width: 18px;
+        height: 18px;
+        fill: currentColor;
+        margin-left: 4px;
+        transition: transform 0.2s ease;
+      }
+
+      .card:hover .card-footer svg,
+      .card:focus-visible .card-footer svg {
+        transform: translateX(4px);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="header-content">
+        <span class="eyebrow">St Andrews Digital</span>
+        <h1>Prototype Patterns</h1>
+        <p class="subtitle">
+          A living repository of UI components, interface explorations, and
+          interactive design patterns.
+        </p>
+      </div>
+    </header>
+
+    <main>
+      <h2 class="section-title">Available Patterns</h2>
+
+      <div class="grid-container">
+        <a href="featured-courses.html" class="card">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M4 4h4v4H4V4zm6 0h4v4h-4V4zm6 0h4v4h-4V4zM4 10h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4zM4 16h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4z"
+              />
+            </svg>
+          </div>
+          <h2>Featured Courses Grid</h2>
+          <p>
+            A modern bento-box layout for academic courses featuring rich
+            photography, hover states, and delivery mode tags.
+          </p>
+          <div class="card-footer">
+            View Prototype
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
+              />
+            </svg>
+          </div>
+        </a>
+
+        <a href="blockquotes.html" class="card">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z" />
+            </svg>
+          </div>
+          <h2>Blockquotes & Testimonials</h2>
+          <p>
+            Typographic explorations and container patterns for emphasizing pull
+            quotes and student testimonials.
+          </p>
+          <div class="card-footer">
+            View Prototype
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
+              />
+            </svg>
+          </div>
+        </a>
+      </div>
+    </main>
+  </body>
+</html>
