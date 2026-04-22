@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Academic Courses</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        /* Material Design 3 / Modern UI Colors */
+        --md-sys-color-background: #f4f5f8;
+        --md-sys-color-surface: #ffffff;
+        --md-sys-color-on-surface: #1c1b1f;
+        --md-sys-color-primary: #0b57d0;
+        --md-sys-color-secondary-container: #d3e3fd;
+        --md-sys-color-on-secondary-container: #041e49;
+        --md-sys-color-tertiary-container: rgba(242, 242, 242, 0.95);
+        --md-sys-color-on-tertiary-container: #44474e;
+        --md-sys-elevation-1: 0px 2px 8px rgba(0, 0, 0, 0.05);
+        --md-sys-elevation-3: 0px 12px 28px rgba(0, 0, 0, 0.12);
+
+        /* Custom Colors for Delivery Modes */
+        --tag-online-bg: #c4eed0;
+        --tag-online-text: #0f5223;
+        --tag-inperson-bg: #fad8fd;
+        --tag-inperson-text: #4d1659;
+      }
+      body {
+        font-family: "Roboto", sans-serif;
+        background-color: var(--md-sys-color-background);
+        color: var(--md-sys-color-on-surface);
+        margin: 0;
+        padding: 40px 20px;
+        display: flex;
+        justify-content: center;
+      }
+      .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 24px;
+        max-width: 1200px;
+        width: 100%;
+      }
+
+      .card {
+        background-color: var(--md-sys-color-surface);
+        border-radius: 24px;
+        overflow: hidden;
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        flex-direction: column;
+        box-shadow: var(--md-sys-elevation-1);
+        /* Added transition for the box-shadow (halo/action ring) */
+        transition:
+          transform 0.25s cubic-bezier(0.2, 0, 0, 1),
+          box-shadow 0.25s cubic-bezier(0.2, 0, 0, 1);
+        position: relative;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-color: var(--md-sys-color-primary);
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        pointer-events: none;
+        z-index: 10;
+      }
+
+      /* HOVER: Soft Halo Effect + Elevation */
+      .card:hover {
+        transform: translateY(-6px);
+        /* Elevation shadow + a soft primary colored halo */
+        box-shadow:
+          0 0 0 6px rgba(11, 87, 208, 0.12),
+          var(--md-sys-elevation-3);
+        outline: none;
+      }
+
+      .card:hover::after,
+      .card:focus-visible::after {
+        opacity: 0.03;
+      }
+
+      /* ACTIVE/CLICK: Obvious Action Ring */
+      .card:active {
+        transform: scale(0.98);
+        /* Solid primary action color ring around the card */
+        box-shadow: 0 0 0 4px var(--md-sys-color-primary);
+      }
+
+      /* FOCUS (Keyboard Accessibility) */
+      .card:focus-visible {
+        transform: translateY(-6px);
+        box-shadow:
+          0 0 0 4px var(--md-sys-color-primary),
+          var(--md-sys-elevation-3);
+        outline: none;
+      }
+
+      .card-image {
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        background-color: #e8def8;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.5s ease;
+      }
+
+      .card:hover .card-image img,
+      .card:focus-visible .card-image img {
+        transform: scale(1.05);
+      }
+
+      .card-image .tag-school {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        z-index: 5;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        backdrop-filter: blur(4px);
+        background-color: rgba(255, 255, 255, 0.9);
+        color: #1c1b1f;
+      }
+
+      .card-content {
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        gap: 16px;
+      }
+
+      .card-title {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 1.3;
+        letter-spacing: -0.01em;
+      }
+
+      .tags-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .tag {
+        padding: 6px 14px;
+        border-radius: 100px;
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 1.2;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .tag-conversion {
+        background-color: var(--md-sys-color-secondary-container);
+        color: var(--md-sys-color-on-secondary-container);
+      }
+
+      .tag-online {
+        background-color: var(--tag-online-bg);
+        color: var(--tag-online-text);
+      }
+
+      .tag-inperson {
+        background-color: var(--tag-inperson-bg);
+        color: var(--tag-inperson-text);
+      }
+
+      .card-footer {
+        margin-top: auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: var(--md-sys-color-primary);
+        font-weight: 500;
+        font-size: 15px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
+      }
+
+      .card-footer-text {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .icon-arrow {
+        width: 20px;
+        height: 20px;
+        fill: currentColor;
+        transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1);
+      }
+
+      .card:hover .icon-arrow,
+      .card:focus-visible .icon-arrow {
+        transform: translateX(6px);
+      }
+
+      @media (max-width: 600px) {
+        .grid-container {
+          grid-template-columns: 1fr;
+        }
+        .card-title {
+          font-size: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="grid-container">
+      <a
+        href="#"
+        class="card"
+        aria-label="Open Artificial Intelligence (MSc) details"
+      >
+        <div class="card-image">
+          <span class="tag tag-school">School of Computer Science</span>
+          <img
+            src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80"
+            alt="Students collaborating on laptops in a modern university workspace"
+            loading="lazy"
+          />
+        </div>
+        <div class="card-content">
+          <h2 class="card-title">Artificial Intelligence (MSc)</h2>
+          <div class="tags-container">
+            <span class="tag tag-online">Online</span>
+            <span class="tag tag-conversion">Conversion course</span>
+          </div>
+          <div class="card-footer">
+            <span class="card-footer-text">Learn more</span>
+            <svg class="icon-arrow" viewBox="0 0 24 24">
+              <path
+                d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
+              />
+            </svg>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="card" aria-label="Open Computer Science (MSc) details">
+        <div class="card-image">
+          <span class="tag tag-school">School of Computer Science</span>
+          <img
+            src="https://images.unsplash.com/photo-1580894732444-8ecded7900cd?w=800&q=80"
+            alt="Teacher assisting a student at a computer desk"
+            loading="lazy"
+          />
+        </div>
+        <div class="card-content">
+          <h2 class="card-title">Computer Science (MSc)</h2>
+          <div class="tags-container">
+            <span class="tag tag-inperson">In-person</span>
+            <span class="tag tag-conversion">Conversion course</span>
+          </div>
+          <div class="card-footer">
+            <span class="card-footer-text">Learn more</span>
+            <svg class="icon-arrow" viewBox="0 0 24 24">
+              <path
+                d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
+              />
+            </svg>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="card" aria-label="Open Machine Learning (MSc) details">
+        <div class="card-image">
+          <span class="tag tag-school">School of Computer Science</span>
+          <img
+            src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80"
+            alt="University lecture hall with students attending a presentation"
+            loading="lazy"
+          />
+        </div>
+        <div class="card-content">
+          <h2 class="card-title">Machine Learning (MSc)</h2>
+          <div class="tags-container">
+            <span class="tag tag-online">Online</span>
+            <span class="tag tag-conversion">Conversion course</span>
+          </div>
+          <div class="card-footer">
+            <span class="card-footer-text">Learn more</span>
+            <svg class="icon-arrow" viewBox="0 0 24 24">
+              <path
+                d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
+              />
+            </svg>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="card" aria-label="Open Management (MSc) details">
+        <div class="card-image">
+          <span class="tag tag-school">Business School</span>
+          <img
+            src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&q=80"
+            alt="Business students reviewing documents in a collaborative meeting"
+            loading="lazy"
+          />
+        </div>
+        <div class="card-content">
+          <h2 class="card-title">Management (MSc)</h2>
+          <div class="tags-container">
+            <span class="tag tag-inperson">In-person</span>
+            <span class="tag tag-conversion">Conversion course</span>
+          </div>
+          <div class="card-footer">
+            <span class="card-footer-text">Learn more</span>
+            <svg class="icon-arrow" viewBox="0 0 24 24">
+              <path
+                d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
+              />
+            </svg>
+          </div>
+        </div>
+      </a>
+
+      <a
+        href="#"
+        class="card"
+        aria-label="Open Museum and Heritage Studies (MLitt) details"
+      >
+        <div class="card-image">
+          <span class="tag tag-school">Graduate School</span>
+          <img
+            src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?w=800&q=80"
+            alt="Classic university library interior with arched architecture"
+            loading="lazy"
+          />
+        </div>
+        <div class="card-content">
+          <h2 class="card-title">Museum and Heritage Studies (MLitt)</h2>
+          <div class="tags-container">
+            <span class="tag tag-inperson">In-person</span>
+            <span class="tag tag-conversion">Conversion course</span>
+          </div>
+          <div class="card-footer">
+            <span class="card-footer-text">Learn more</span>
+            <svg class="icon-arrow" viewBox="0 0 24 24">
+              <path
+                d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
+              />
+            </svg>
+          </div>
+        </div>
+      </a>
+
+      <a
+        href="#"
+        class="card"
+        aria-label="Open International Education (MSc) details"
+      >
+        <div class="card-image">
+          <span class="tag tag-school">IELLI</span>
+          <img
+            src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=80"
+            alt="Diverse group of university students smiling outdoors on campus"
+            loading="lazy"
+          />
+        </div>
+        <div class="card-content">
+          <h2 class="card-title">International Education (MSc)</h2>
+          <div class="tags-container">
+            <span class="tag tag-online">Online</span>
+            <span class="tag tag-conversion">Conversion course</span>
+          </div>
+          <div class="card-footer">
+            <span class="card-footer-text">Learn more</span>
+            <svg class="icon-arrow" viewBox="0 0 24 24">
+              <path
+                d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
+              />
+            </svg>
+          </div>
+        </div>
+      </a>
+    </main>
+  </body>
+</html>
