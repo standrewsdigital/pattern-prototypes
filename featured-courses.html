@@ -3,33 +3,74 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Academic Courses</title>
+    <title>Academic Courses - St Andrews Styled</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
       rel="stylesheet"
     />
     <style>
       :root {
-        /* Material Design 3 / Modern UI Colors */
-        --md-sys-color-background: #f4f5f8;
-        --md-sys-color-surface: #ffffff;
-        --md-sys-color-on-surface: #1c1b1f;
-        --md-sys-color-primary: #0b57d0;
-        --md-sys-color-secondary-container: #d3e3fd;
-        --md-sys-color-on-secondary-container: #041e49;
-        --md-sys-color-tertiary-container: rgba(242, 242, 242, 0.95);
-        --md-sys-color-on-tertiary-container: #44474e;
-        --md-sys-elevation-1: 0px 2px 8px rgba(0, 0, 0, 0.05);
-        --md-sys-elevation-3: 0px 12px 28px rgba(0, 0, 0, 0.12);
+        /* St Andrews Digital Pattern Library Colors */
+        --sta-blue: #00539b;
+        --sta-blue-tint25: #407eb4;
+        --sta-blue-tint50: #80a9cd;
+        --sta-blue-shade25: #003e74;
 
-        /* Custom Colors for Delivery Modes */
-        --tag-online-bg: #c4eed0;
-        --tag-online-text: #0f5223;
-        --tag-inperson-bg: #fad8fd;
-        --tag-inperson-text: #4d1659;
+        --sta-blue-light: #0071b3;
+        --sta-blue-light-tint25: #4095c6;
+        --sta-blue-light-tint50: #80b8d9;
+        --sta-blue-light-shade25: #005586;
+
+        --sta-red: #ea1a13;
+        --sta-red-tint25: #ef534e;
+        --sta-red-shade25: #b0140e;
+
+        --sta-grey-dark: #202024;
+        --sta-grey: #6a6a6b;
+        --sta-grey-highlight: #949494;
+        --sta-grey-mid2: #dedede;
+        --sta-grey-light: #f0f0f0;
+        --sta-grey-light2: #fafafa;
+        --sta-grey-dark2: #0f0f11;
+
+        --sta-orange-highlight: #ffb400;
+        --sta-orange: #bf5909;
+
+        --sta-green: #00853f;
+        --sta-green-tint25: #40a46f;
+        --sta-green-shade25: #00642f;
+
+        --sta-purple: #7b439a;
+        --sta-purple-tint25: #9c72b3;
+        --sta-purple-shade25: #5c3274;
+
+        --sta-burgundy: #c60c46;
+        --sta-burgundy-tint25: #d44974;
+        --sta-burgundy-shade25: #950935;
+
+        /* Map variables to component usage based on St Andrews guidelines */
+        --md-sys-color-background: var(--sta-grey-light2);
+        --md-sys-color-surface: #ffffff;
+        --md-sys-color-on-surface: var(--sta-grey-dark);
+        --md-sys-color-primary: var(--sta-blue-light);
+        --md-sys-color-on-primary: #ffffff;
+
+        --md-sys-color-tertiary-container: var(--sta-grey-light);
+        --md-sys-color-on-tertiary-container: var(--sta-grey-dark);
+
+        --md-sys-elevation-1: 0px 2px 8px rgba(32, 32, 36, 0.08);
+        --md-sys-elevation-3: 0px 12px 28px rgba(32, 32, 36, 0.15);
+
+        --tag-online-bg: var(--sta-green-tint25);
+        --tag-online-text: #ffffff;
+
+        --tag-inperson-bg: var(--sta-purple-tint25);
+        --tag-inperson-text: #ffffff;
       }
       body {
-        font-family: "Roboto", sans-serif;
+        font-family: "PT Sans", sans-serif;
         background-color: var(--md-sys-color-background);
         color: var(--md-sys-color-on-surface);
         margin: 0;
@@ -49,66 +90,41 @@
         background-color: var(--md-sys-color-surface);
         border-radius: 24px;
         overflow: hidden;
-        text-decoration: none;
         color: inherit;
         display: flex;
         flex-direction: column;
         box-shadow: var(--md-sys-elevation-1);
-        /* Added transition for the box-shadow (halo/action ring) */
         transition:
           transform 0.25s cubic-bezier(0.2, 0, 0, 1),
           box-shadow 0.25s cubic-bezier(0.2, 0, 0, 1);
         position: relative;
-        cursor: pointer;
+        border: 1px solid var(--sta-grey-mid2);
+      }
+
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow:
+          0 0 0 4px rgba(0, 113, 179, 0.15),
+          var(--md-sys-elevation-3);
+      }
+
+      .card-image-link {
+        display: block;
+        width: 100%;
+        text-decoration: none;
+        position: relative;
+        overflow: hidden;
         -webkit-tap-highlight-color: transparent;
       }
 
-      .card::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background-color: var(--md-sys-color-primary);
-        opacity: 0;
-        transition: opacity 0.2s ease;
-        pointer-events: none;
-        z-index: 10;
-      }
-
-      /* HOVER: Soft Halo Effect + Elevation */
-      .card:hover {
-        transform: translateY(-6px);
-        /* Elevation shadow + a soft primary colored halo */
-        box-shadow:
-          0 0 0 6px rgba(11, 87, 208, 0.12),
-          var(--md-sys-elevation-3);
-        outline: none;
-      }
-
-      .card:hover::after,
-      .card:focus-visible::after {
-        opacity: 0.03;
-      }
-
-      /* ACTIVE/CLICK: Obvious Action Ring */
-      .card:active {
-        transform: scale(0.98);
-        /* Solid primary action color ring around the card */
-        box-shadow: 0 0 0 4px var(--md-sys-color-primary);
-      }
-
-      /* FOCUS (Keyboard Accessibility) */
-      .card:focus-visible {
-        transform: translateY(-6px);
-        box-shadow:
-          0 0 0 4px var(--md-sys-color-primary),
-          var(--md-sys-elevation-3);
-        outline: none;
+      .card-image-link:active {
+        opacity: 0.8;
       }
 
       .card-image {
         width: 100%;
         aspect-ratio: 4 / 3;
-        background-color: #e8def8;
+        background-color: var(--sta-grey-light);
         overflow: hidden;
         position: relative;
       }
@@ -122,19 +138,17 @@
       }
 
       .card:hover .card-image img,
-      .card:focus-visible .card-image img {
+      .card-image-link:focus-visible .card-image img {
         transform: scale(1.05);
       }
 
-      .card-image .tag-school {
+      /* Delivery Tags inside the image (Top Left) */
+      .card-image .tag {
         position: absolute;
         top: 16px;
-        right: 16px;
+        left: 16px;
         z-index: 5;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-        backdrop-filter: blur(4px);
-        background-color: rgba(255, 255, 255, 0.9);
-        color: #1c1b1f;
       }
 
       .card-content {
@@ -147,31 +161,27 @@
 
       .card-title {
         margin: 0;
-        font-size: 22px;
+        font-size: 24px;
         font-weight: 700;
         line-height: 1.3;
-        letter-spacing: -0.01em;
-      }
-
-      .tags-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
+        color: #202024;
       }
 
       .tag {
         padding: 6px 14px;
         border-radius: 100px;
-        font-size: 13px;
-        font-weight: 500;
+        font-size: 14px;
+        font-weight: 700;
         line-height: 1.2;
         display: inline-flex;
         align-items: center;
       }
 
-      .tag-conversion {
-        background-color: var(--md-sys-color-secondary-container);
-        color: var(--md-sys-color-on-secondary-container);
+      .tag-school {
+        background-color: var(--md-sys-color-tertiary-container);
+        color: var(--md-sys-color-on-tertiary-container);
+        align-self: flex-start;
+        margin-bottom: -8px; /* Tucks it slightly closer to the title below it */
       }
 
       .tag-online {
@@ -184,34 +194,70 @@
         color: var(--tag-inperson-text);
       }
 
-      .card-footer {
+      .card-footer-btn {
         margin-top: auto;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        color: var(--md-sys-color-primary);
-        font-weight: 500;
-        font-size: 15px;
-        padding-top: 16px;
-        border-top: 1px solid rgba(0, 0, 0, 0.06);
+
+        background-color: var(--sta-blue-light);
+        color: #ffffff;
+        font-family: inherit;
+        font-weight: 700;
+        font-size: 1.2em;
+        line-height: 1.3;
+        text-align: left;
+        text-decoration: none;
+
+        padding: 0.5em 15px calc(0.5em - 2px) 15px;
+
+        border: 1px solid var(--sta-blue-light);
+        border-bottom: 3px solid var(--sta-blue-light-shade25);
+        border-radius: 12px;
+
+        transition:
+          background-color 0.2s ease,
+          border-color 0.2s ease,
+          transform 0.1s ease;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .card-footer-btn:hover,
+      .card-footer-btn:focus-visible {
+        background-color: var(--sta-blue-shade25);
+        border-color: var(--sta-blue-shade25);
+        outline: none;
+      }
+
+      .card-footer-btn:active {
+        transform: translateY(2px);
+        border-bottom-width: 1px;
+        margin-bottom: 2px;
+      }
+
+      .card-footer-btn:focus-visible {
+        box-shadow: 0 0 0 3px var(--sta-orange-highlight);
       }
 
       .card-footer-text {
         display: flex;
         align-items: center;
-        gap: 6px;
       }
 
       .icon-arrow {
-        width: 20px;
-        height: 20px;
-        fill: currentColor;
-        transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1);
+        width: 18px;
+        height: 18px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 3.5;
+        stroke-linecap: square;
+        stroke-linejoin: miter;
+        transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1);
       }
 
-      .card:hover .icon-arrow,
-      .card:focus-visible .icon-arrow {
-        transform: translateX(6px);
+      .card-footer-btn:hover .icon-arrow,
+      .card-footer-btn:focus-visible .icon-arrow {
+        transform: translateX(4px);
       }
 
       @media (max-width: 600px) {
@@ -219,180 +265,174 @@
           grid-template-columns: 1fr;
         }
         .card-title {
-          font-size: 20px;
+          font-size: 22px;
         }
       }
     </style>
   </head>
   <body>
     <main class="grid-container">
-      <a
-        href="#"
-        class="card"
-        aria-label="Open Artificial Intelligence (MSc) details"
-      >
-        <div class="card-image">
-          <span class="tag tag-school">School of Computer Science</span>
-          <img
-            src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80"
-            alt="Students collaborating on laptops in a modern university workspace"
-            loading="lazy"
-          />
-        </div>
+      <article class="card">
+        <a
+          href="#"
+          class="card-image-link"
+          aria-label="Open Artificial Intelligence (MSc) details"
+        >
+          <div class="card-image">
+            <span class="tag tag-online">Online</span>
+            <img
+              src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80"
+              alt="Students collaborating on laptops in a modern university workspace"
+              loading="lazy"
+            />
+          </div>
+        </a>
         <div class="card-content">
+          <span class="tag tag-school">School of Computer Science</span>
           <h2 class="card-title">Artificial Intelligence (MSc)</h2>
-          <div class="tags-container">
-            <span class="tag tag-online">Online</span>
-            <span class="tag tag-conversion">Conversion course</span>
-          </div>
-          <div class="card-footer">
-            <span class="card-footer-text">Learn more</span>
+          <a href="#" class="btn-action card-footer-btn">
+            <span class="card-footer-text">Go to course</span>
             <svg class="icon-arrow" viewBox="0 0 24 24">
-              <path
-                d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
-              />
+              <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
-          </div>
+          </a>
         </div>
-      </a>
+      </article>
 
-      <a href="#" class="card" aria-label="Open Computer Science (MSc) details">
-        <div class="card-image">
-          <span class="tag tag-school">School of Computer Science</span>
-          <img
-            src="https://images.unsplash.com/photo-1580894732444-8ecded7900cd?w=800&q=80"
-            alt="Teacher assisting a student at a computer desk"
-            loading="lazy"
-          />
-        </div>
+      <article class="card">
+        <a
+          href="#"
+          class="card-image-link"
+          aria-label="Open Computer Science (MSc) details"
+        >
+          <div class="card-image">
+            <span class="tag tag-inperson">In-person</span>
+            <img
+              src="https://images.unsplash.com/photo-1580894732444-8ecded7900cd?w=800&q=80"
+              alt="Teacher assisting a student at a computer desk"
+              loading="lazy"
+            />
+          </div>
+        </a>
         <div class="card-content">
+          <span class="tag tag-school">School of Computer Science</span>
           <h2 class="card-title">Computer Science (MSc)</h2>
-          <div class="tags-container">
-            <span class="tag tag-inperson">In-person</span>
-            <span class="tag tag-conversion">Conversion course</span>
-          </div>
-          <div class="card-footer">
-            <span class="card-footer-text">Learn more</span>
+          <a href="#" class="btn-action card-footer-btn">
+            <span class="card-footer-text">Go to course</span>
             <svg class="icon-arrow" viewBox="0 0 24 24">
-              <path
-                d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
-              />
+              <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
-          </div>
+          </a>
         </div>
-      </a>
+      </article>
 
-      <a href="#" class="card" aria-label="Open Machine Learning (MSc) details">
-        <div class="card-image">
+      <article class="card">
+        <a
+          href="#"
+          class="card-image-link"
+          aria-label="Open Machine Learning (MSc) details"
+        >
+          <div class="card-image">
+            <span class="tag tag-online">Online</span>
+            <img
+              src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80"
+              alt="University lecture hall with students attending a presentation"
+              loading="lazy"
+            />
+          </div>
+        </a>
+        <div class="card-content">
           <span class="tag tag-school">School of Computer Science</span>
-          <img
-            src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80"
-            alt="University lecture hall with students attending a presentation"
-            loading="lazy"
-          />
-        </div>
-        <div class="card-content">
           <h2 class="card-title">Machine Learning (MSc)</h2>
-          <div class="tags-container">
-            <span class="tag tag-online">Online</span>
-            <span class="tag tag-conversion">Conversion course</span>
-          </div>
-          <div class="card-footer">
-            <span class="card-footer-text">Learn more</span>
+          <a href="#" class="btn-action card-footer-btn">
+            <span class="card-footer-text">Go to course</span>
             <svg class="icon-arrow" viewBox="0 0 24 24">
-              <path
-                d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
-              />
+              <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
-          </div>
+          </a>
         </div>
-      </a>
+      </article>
 
-      <a href="#" class="card" aria-label="Open Management (MSc) details">
-        <div class="card-image">
+      <article class="card">
+        <a
+          href="#"
+          class="card-image-link"
+          aria-label="Open Management (MSc) details"
+        >
+          <div class="card-image">
+            <span class="tag tag-inperson">In-person</span>
+            <img
+              src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&q=80"
+              alt="Business students reviewing documents in a collaborative meeting"
+              loading="lazy"
+            />
+          </div>
+        </a>
+        <div class="card-content">
           <span class="tag tag-school">Business School</span>
-          <img
-            src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&q=80"
-            alt="Business students reviewing documents in a collaborative meeting"
-            loading="lazy"
-          />
-        </div>
-        <div class="card-content">
           <h2 class="card-title">Management (MSc)</h2>
-          <div class="tags-container">
-            <span class="tag tag-inperson">In-person</span>
-            <span class="tag tag-conversion">Conversion course</span>
-          </div>
-          <div class="card-footer">
-            <span class="card-footer-text">Learn more</span>
+          <a href="#" class="btn-action card-footer-btn">
+            <span class="card-footer-text">Go to course</span>
             <svg class="icon-arrow" viewBox="0 0 24 24">
-              <path
-                d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
-              />
+              <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
-          </div>
+          </a>
         </div>
-      </a>
+      </article>
 
-      <a
-        href="#"
-        class="card"
-        aria-label="Open Museum and Heritage Studies (MLitt) details"
-      >
-        <div class="card-image">
+      <article class="card">
+        <a
+          href="#"
+          class="card-image-link"
+          aria-label="Open Museum and Heritage Studies (MLitt) details"
+        >
+          <div class="card-image">
+            <span class="tag tag-inperson">In-person</span>
+            <img
+              src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?w=800&q=80"
+              alt="Classic university library interior with arched architecture"
+              loading="lazy"
+            />
+          </div>
+        </a>
+        <div class="card-content">
           <span class="tag tag-school">Graduate School</span>
-          <img
-            src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?w=800&q=80"
-            alt="Classic university library interior with arched architecture"
-            loading="lazy"
-          />
-        </div>
-        <div class="card-content">
           <h2 class="card-title">Museum and Heritage Studies (MLitt)</h2>
-          <div class="tags-container">
-            <span class="tag tag-inperson">In-person</span>
-            <span class="tag tag-conversion">Conversion course</span>
-          </div>
-          <div class="card-footer">
-            <span class="card-footer-text">Learn more</span>
+          <a href="#" class="btn-action card-footer-btn">
+            <span class="card-footer-text">Go to course</span>
             <svg class="icon-arrow" viewBox="0 0 24 24">
-              <path
-                d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
-              />
+              <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
-          </div>
+          </a>
         </div>
-      </a>
+      </article>
 
-      <a
-        href="#"
-        class="card"
-        aria-label="Open International Education (MSc) details"
-      >
-        <div class="card-image">
-          <span class="tag tag-school">IELLI</span>
-          <img
-            src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=80"
-            alt="Diverse group of university students smiling outdoors on campus"
-            loading="lazy"
-          />
-        </div>
-        <div class="card-content">
-          <h2 class="card-title">International Education (MSc)</h2>
-          <div class="tags-container">
+      <article class="card">
+        <a
+          href="#"
+          class="card-image-link"
+          aria-label="Open International Education (MSc) details"
+        >
+          <div class="card-image">
             <span class="tag tag-online">Online</span>
-            <span class="tag tag-conversion">Conversion course</span>
+            <img
+              src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=80"
+              alt="Diverse group of university students smiling outdoors on campus"
+              loading="lazy"
+            />
           </div>
-          <div class="card-footer">
-            <span class="card-footer-text">Learn more</span>
+        </a>
+        <div class="card-content">
+          <span class="tag tag-school">IELLI</span>
+          <h2 class="card-title">International Education (MSc)</h2>
+          <a href="#" class="btn-action card-footer-btn">
+            <span class="card-footer-text">Go to course</span>
             <svg class="icon-arrow" viewBox="0 0 24 24">
-              <path
-                d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
-              />
+              <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
-          </div>
+          </a>
         </div>
-      </a>
+      </article>
     </main>
   </body>
 </html>
