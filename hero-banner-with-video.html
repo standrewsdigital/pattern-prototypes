@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hero Banner with Video Background</title>
+
+    <!-- Assuming these files are in your environment -->
+    <link
+      rel="stylesheet"
+      href="https://www.st-andrews.ac.uk/~cdn/dpl/new/1.4.1/main.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://www.st-andrews.ac.uk/~cdn/dpl/new/1.4.1/hero-banner.css"
+    />
+
+    <!-- Google Material Symbols (Included since it's referenced in your global CSS) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* ==========================================================================
+           NEW STYLING FOR VIDEO HERO BANNER 
+           ========================================================================== */
+
+      .hero-video-banner {
+        position: relative;
+        width: 100vw;
+        max-width: 100%;
+        min-height: 600px; /* Matches the 1920x600 aspect proportion of your image banners */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background-color: #00213e; /* Fallback background color (bg-blue-60-shade) */
+      }
+
+      /* The actual video element */
+      .hero-video-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Ensures video scales without stretching */
+        z-index: 0; /* Keeps it behind the content */
+        pointer-events: none; /* Prevents users from accidentally right-clicking the video itself */
+      }
+
+      /* Ensures the banner content floats above the video */
+      .hero-video-banner .hero-banner-content {
+        position: relative;
+        z-index: 1;
+        padding: 2rem 0; /* Matches your existing .bg-image .hero-banner-content padding */
+      }
+
+      /* Accessibility: Pause/Play Control Button */
+      .video-control-btn {
+        position: absolute;
+        bottom: 2rem;
+        right: 2rem;
+        z-index: 2; /* Sits above everything */
+        background-color: rgba(32, 32, 36, 0.7); /* Dark grey 1 with opacity */
+        color: #fff;
+        border: 2px solid #fff;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition:
+          background-color 0.3s ease,
+          transform 0.2s ease;
+      }
+
+      .video-control-btn:hover {
+        background-color: #00539b; /* primary blue on hover */
+        transform: scale(1.05);
+      }
+
+      .video-control-btn:focus {
+        outline: 3px solid #ffb400;
+        background-color: #003e74;
+      }
+
+      .video-control-btn .material-icons-outlined {
+        font-size: 32px;
+        margin: 0;
+        padding: 0;
+      }
+
+      .hero-video-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.2);
+        z-index: 0;
+      }
+
+      /* ==========================================================================
+           HERO BANNER STYLING FIX (Fleshed-out solid boxes & Target Matching)
+           ========================================================================== */
+
+      /* 1. Make the title box solid, taller, and increase font size */
+      .hero-video-banner .banner-box .title-box {
+        opacity: 1 !important; /* Overrides the default 90% transparency */
+        padding: 1.5rem 2rem;
+      }
+      .hero-video-banner .banner-box .title-box h2 {
+        font-size: 3.2rem; /* Significantly larger text */
+        line-height: 1.1;
+        margin: 0;
+      }
+
+      /* 2. Make the content box solid white, increase padding, and enlarge text */
+      .hero-video-banner .banner-box .content-box {
+        opacity: 1 !important; /* Overrides the default 90% transparency */
+        background-color: #ffffff;
+        padding: 2rem;
+        color: #202024; /* Aligns with global dark grey */
+      }
+      .hero-video-banner .banner-box .content-box p {
+        font-size: 1.3rem; /* Larger paragraph text */
+        line-height: 1.5;
+        margin-bottom: 1.5rem;
+      }
+
+      /* 3. Stack the buttons vertically and enforce solid blue block styling */
+      .hero-video-banner .banner-box .content-box .btn {
+        display: inline-flex;
+        align-items: center;
+        width: fit-content;
+        margin-right: 0;
+        margin-bottom: 0.75rem;
+        padding: 0.75rem 1.5rem;
+        font-size: 1.1rem;
+        background-color: #00539b !important; /* Force primary blue */
+        color: #ffffff !important; /* Force white text */
+        border: none !important;
+      }
+      .hero-video-banner .banner-box .content-box .btn:hover {
+        background-color: #003e74 !important; /* Darker blue on hover */
+        text-decoration: none !important;
+      }
+      .hero-video-banner .banner-box .content-box .btn.action:after {
+        color: #ffffff !important;
+        margin-left: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ==========================================================================
+         NEW: Hero banner with Background Video and accessibility controls
+         ========================================================================== -->
+    <section class="hero-video-banner text-white">
+      <!-- Video element: muted (no sound), autoplay, loops endlessly, with poster fallback -->
+      <!-- disablePictureInPicture prevents the pop-up player option -->
+      <!-- controlsList="nodownload" prevents hidden download buttons -->
+      <video
+        class="hero-video-bg"
+        id="heroBgVideo"
+        autoplay
+        loop
+        muted
+        playsinline
+        disablePictureInPicture
+        controlsList="nodownload"
+        poster="https://placehold.co/1920x600/00213e/ffffff?text=Video+Fallback+Image"
+      >
+        <!-- Placeholder video for demonstration -->
+        <source src="/media/sky.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+
+      <!-- Optional dimming overlay to make sure the brand boxes pop -->
+      <div class="hero-video-overlay"></div>
+
+      <!-- Your standard hero banner content structure -->
+      <div class="hero-banner-content container">
+        <div class="row">
+          <div class="col col-12-sm col-10-md col-8-lg banner-box">
+            <div class="title-box bg-blue-primary">
+              <h2>Study at St Andrews</h2>
+            </div>
+            <div class="content-box">
+              <p>
+                Located in a coastal town where the medieval meets the
+                cosmopolitan, St Andrews provides a truly diverse and vibrant
+                student community with a global outlook.
+              </p>
+              <a type="button" class="btn lg action" href="#"
+                >Masters study in St Andrews</a
+              >
+              <a type="button" class="btn lg action" href="#"
+                >Masters study online</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Motion Control Button -->
+      <button
+        class="video-control-btn"
+        id="videoControlBtn"
+        aria-label="Pause background video"
+      >
+        <span
+          class="material-icons-outlined"
+          aria-hidden="true"
+          id="videoControlIcon"
+          >pause</span
+        >
+      </button>
+    </section>
+
+    <!-- ==========================================================================
+         NEW SCRIPT FOR VIDEO TOGGLE LOGIC
+         ========================================================================== -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const video = document.getElementById("heroBgVideo");
+        const toggleBtn = document.getElementById("videoControlBtn");
+        const icon = document.getElementById("videoControlIcon");
+
+        // Respect user's OS preference for reduced motion right off the bat
+        const prefersReducedMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
+
+        if (prefersReducedMotion) {
+          video.pause();
+          icon.textContent = "play_arrow";
+          toggleBtn.setAttribute("aria-label", "Play background video");
+        }
+
+        toggleBtn.addEventListener("click", function () {
+          if (video.paused) {
+            video.play();
+            icon.textContent = "pause";
+            toggleBtn.setAttribute("aria-label", "Pause background video");
+          } else {
+            video.pause();
+            icon.textContent = "play_arrow";
+            toggleBtn.setAttribute("aria-label", "Play background video");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
